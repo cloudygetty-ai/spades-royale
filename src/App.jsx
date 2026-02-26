@@ -1030,6 +1030,350 @@ const ResultsScreen = ({ onBack }) => {
 };
 
 // ═══════════════════════════════════════════════════════════════════════════
+// PROFILE SCREEN
+// ═══════════════════════════════════════════════════════════════════════════
+const ProfileScreen = () => {
+  const [activeTab, setActiveTab] = useState("stats");
+  const [editingName, setEditingName] = useState(false);
+  const [displayName, setDisplayName] = useState("Cloudygetty");
+
+  const stats = [
+    { label: "Games Played", val: "142", icon: "🎮" },
+    { label: "Games Won",    val: "97",  icon: "🏆" },
+    { label: "Win Rate",     val: "68%", icon: "📈" },
+    { label: "Total Earned", val: "$214.50", icon: "💰" },
+    { label: "Nil Success",  val: "23/28",   icon: "🚫" },
+    { label: "Avg Bid",      val: "4.2",     icon: "🎯" },
+    { label: "Tricks Won",   val: "847",     icon: "✅" },
+    { label: "Bags Taken",   val: "14",      icon: "👜" },
+  ];
+
+  const history = [
+    { tournament: "Quick Blitz",       result: "🥇 1st", prize: "+$48.00", date: "Today",     win: true },
+    { tournament: "Midnight Royale",   result: "🥇 1st", prize: "+$4.50",  date: "Yesterday", win: true },
+    { tournament: "Sunday Grand Prix", result: "🥈 2nd", prize: "+$12.00", date: "Feb 23",    win: true },
+    { tournament: "Quick Blitz",       result: "💀 Elim", prize: "-$1.00", date: "Feb 22",    win: false },
+    { tournament: "High Roller Elite", result: "🥈 2nd", prize: "+$120.00",date: "Feb 20",    win: true },
+    { tournament: "Midnight Royale",   result: "💀 Elim", prize: "-$2.50", date: "Feb 19",    win: false },
+  ];
+
+  const achievements = [
+    { icon: "⚡", name: "Speed Demon",     desc: "Won a game in under 10 min",    unlocked: true },
+    { icon: "🚫", name: "Nil Master",      desc: "10 successful nil bids",         unlocked: true },
+    { icon: "🔥", name: "On Fire",         desc: "3 tournament wins in a row",     unlocked: true },
+    { icon: "💎", name: "High Roller",     desc: "Entered a $50+ tournament",      unlocked: true },
+    { icon: "🏆", name: "Grand Champion",  desc: "Win a Sunday Grand Prix",        unlocked: false },
+    { icon: "🎯", name: "Perfect Bid",     desc: "Bid exactly 13 and make them",   unlocked: false },
+    { icon: "👑", name: "Royale Crown",    desc: "Reach top 100 on leaderboard",   unlocked: false },
+    { icon: "💰", name: "High Earner",     desc: "Earn $500 total",                unlocked: false },
+  ];
+
+  return (
+    <div style={{ height: "100%", display: "flex", flexDirection: "column", background: C.bg, overflowY: "auto" }}>
+
+      {/* Hero header */}
+      <div style={{
+        background: `linear-gradient(160deg, #0E1220 0%, #0A0E1A 60%, ${C.bg} 100%)`,
+        padding: "20px 18px 0",
+        position: "relative", overflow: "hidden",
+        borderBottom: `1px solid ${C.border}`,
+      }}>
+        {/* Background watermark */}
+        <div style={{
+          position: "absolute", right: -30, top: -30, fontSize: 180,
+          opacity: 0.025, userSelect: "none", pointerEvents: "none", fontFamily: "Georgia",
+        }}>♠</div>
+
+        {/* Avatar + name row */}
+        <div style={{ display: "flex", alignItems: "flex-start", gap: 14, position: "relative" }}>
+          {/* Avatar */}
+          <div style={{ position: "relative", flexShrink: 0 }}>
+            <div style={{
+              width: 72, height: 72, borderRadius: "50%",
+              background: `radial-gradient(circle at 35% 35%, ${C.goldLight}, ${C.goldDark})`,
+              border: `3px solid ${C.gold}`,
+              display: "flex", alignItems: "center", justifyContent: "center",
+              fontSize: 32,
+              boxShadow: `0 0 0 4px ${C.gold}22, 0 8px 24px rgba(0,0,0,.6)`,
+            }}>😎</div>
+            {/* Online dot */}
+            <div style={{
+              position: "absolute", bottom: 2, right: 2,
+              width: 16, height: 16, borderRadius: "50%",
+              background: C.emerald, border: `2.5px solid ${C.bg}`,
+              animation: "pulseScale 2s ease-in-out infinite",
+            }} />
+          </div>
+
+          {/* Name + rank */}
+          <div style={{ flex: 1, paddingTop: 4 }}>
+            {editingName ? (
+              <div style={{ display: "flex", gap: 6, alignItems: "center", marginBottom: 4 }}>
+                <input
+                  autoFocus
+                  value={displayName}
+                  onChange={e => setDisplayName(e.target.value)}
+                  onBlur={() => setEditingName(false)}
+                  onKeyDown={e => e.key === "Enter" && setEditingName(false)}
+                  style={{
+                    background: C.card, border: `1.5px solid ${C.gold}`,
+                    borderRadius: 8, color: C.white, fontSize: 16, fontWeight: "800",
+                    padding: "4px 10px", outline: "none", width: 160,
+                    fontFamily: "inherit",
+                  }}
+                />
+              </div>
+            ) : (
+              <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 4 }}>
+                <span style={{ fontSize: 18, fontWeight: "900", color: C.white }}>{displayName}</span>
+                <button onClick={() => setEditingName(true)} style={{
+                  background: "transparent", border: "none", cursor: "pointer",
+                  fontSize: 12, opacity: 0.5, padding: 2,
+                }}>✏️</button>
+              </div>
+            )}
+            <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
+              <div style={{
+                background: `linear-gradient(135deg,${C.gold}22,${C.goldDark}11)`,
+                border: `1px solid ${C.gold}55`,
+                borderRadius: 8, padding: "2px 8px", fontSize: 9, fontWeight: "800", color: C.gold,
+              }}>🏅 RANK #847</div>
+              <div style={{
+                background: C.emerald + "22", border: `1px solid ${C.emerald}55`,
+                borderRadius: 8, padding: "2px 8px", fontSize: 9, fontWeight: "800", color: C.emerald,
+              }}>3🔥 STREAK</div>
+              <div style={{
+                background: C.neon + "22", border: `1px solid ${C.neon}55`,
+                borderRadius: 8, padding: "2px 8px", fontSize: 9, fontWeight: "800", color: C.neonLight,
+              }}>⚡ PRO</div>
+            </div>
+          </div>
+
+          {/* Settings */}
+          <button style={{
+            width: 34, height: 34, borderRadius: "50%", background: C.card,
+            border: `1px solid ${C.border}`, cursor: "pointer", fontSize: 16,
+            display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0,
+          }}>⚙️</button>
+        </div>
+
+        {/* Balance + quick actions */}
+        <div style={{ display: "flex", gap: 8, marginTop: 16, paddingBottom: 16 }}>
+          <div style={{
+            flex: 1, background: C.card, borderRadius: 14, padding: "12px 14px",
+            border: `1px solid ${C.emerald}33`,
+          }}>
+            <div style={{ fontSize: 9, color: C.muted, letterSpacing: 0.5, marginBottom: 2 }}>BALANCE</div>
+            <div style={{ fontSize: 22, fontWeight: "900", color: C.emerald }}>$47.50</div>
+            <div style={{ display: "flex", gap: 6, marginTop: 8 }}>
+              <RippleBtn style={{
+                flex: 1, padding: "5px 0", borderRadius: 8, fontSize: 9, fontWeight: "800",
+                background: `linear-gradient(135deg,${C.emerald},${C.emeraldDark})`,
+                color: C.bg,
+              }}>DEPOSIT</RippleBtn>
+              <RippleBtn style={{
+                flex: 1, padding: "5px 0", borderRadius: 8, fontSize: 9, fontWeight: "800",
+                background: C.surface, color: C.white, border: `1px solid ${C.border}`,
+              }}>WITHDRAW</RippleBtn>
+            </div>
+          </div>
+          <div style={{
+            flex: 1, background: C.card, borderRadius: 14, padding: "12px 14px",
+            border: `1px solid ${C.gold}33`,
+          }}>
+            <div style={{ fontSize: 9, color: C.muted, letterSpacing: 0.5, marginBottom: 2 }}>ALL-TIME WON</div>
+            <div style={{ fontSize: 22, fontWeight: "900", color: C.gold }}>$214.50</div>
+            <div style={{ marginTop: 8 }}>
+              <div style={{ fontSize: 9, color: C.muted, marginBottom: 4 }}>Level Progress</div>
+              <div style={{ background: C.border, borderRadius: 6, height: 6, overflow: "hidden" }}>
+                <div style={{
+                  width: "72%", height: "100%", borderRadius: 6,
+                  background: `linear-gradient(90deg,${C.gold},${C.goldLight})`,
+                }} />
+              </div>
+              <div style={{ fontSize: 9, color: C.muted, marginTop: 3 }}>72% to Elite</div>
+            </div>
+          </div>
+        </div>
+
+        {/* Tabs */}
+        <div style={{ display: "flex", marginInline: -18 }}>
+          {["stats", "history", "achievements"].map(t => (
+            <button key={t} onClick={() => setActiveTab(t)} style={{
+              flex: 1, padding: "10px 4px", border: "none", cursor: "pointer",
+              fontSize: 10, fontWeight: "800", letterSpacing: 0.3, textTransform: "capitalize",
+              background: "transparent",
+              color: activeTab === t ? C.gold : C.muted,
+              borderBottom: activeTab === t ? `2px solid ${C.gold}` : "2px solid transparent",
+              transition: "all .2s",
+            }}>{t === "achievements" ? "🏅 Achievements" : t === "stats" ? "📊 Stats" : "📜 History"}</button>
+          ))}
+        </div>
+      </div>
+
+      {/* Tab content */}
+      <div style={{ flex: 1, padding: 16, display: "flex", flexDirection: "column", gap: 10 }}>
+
+        {/* ── STATS ── */}
+        {activeTab === "stats" && (
+          <>
+            {/* 2x4 stat grid */}
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
+              {stats.map((s, i) => (
+                <div key={i} style={{
+                  background: C.card, borderRadius: 14, padding: "12px 14px",
+                  border: `1px solid ${C.border}`,
+                  animation: `slideUp .3s ${i * 0.05}s both`,
+                }}>
+                  <div style={{ fontSize: 18, marginBottom: 4 }}>{s.icon}</div>
+                  <div style={{ fontSize: 18, fontWeight: "900", color: C.white }}>{s.val}</div>
+                  <div style={{ fontSize: 10, color: C.muted, marginTop: 2 }}>{s.label}</div>
+                </div>
+              ))}
+            </div>
+
+            {/* Win/Loss chart */}
+            <div style={{
+              background: C.card, borderRadius: 14, padding: 16,
+              border: `1px solid ${C.border}`,
+            }}>
+              <div style={{ fontSize: 11, fontWeight: "800", color: C.white, marginBottom: 14 }}>LAST 7 DAYS</div>
+              <div style={{ display: "flex", gap: 6, alignItems: "flex-end", height: 60 }}>
+                {[
+                  { day: "M", pct: 80, win: true },
+                  { day: "T", pct: 40, win: false },
+                  { day: "W", pct: 90, win: true },
+                  { day: "T", pct: 60, win: true },
+                  { day: "F", pct: 30, win: false },
+                  { day: "S", pct: 100, win: true },
+                  { day: "S", pct: 75, win: true },
+                ].map((b, i) => (
+                  <div key={i} style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", gap: 4 }}>
+                    <div style={{
+                      width: "100%", height: `${b.pct}%`, borderRadius: 6,
+                      background: b.win
+                        ? `linear-gradient(180deg,${C.emerald},${C.emeraldDark})`
+                        : `linear-gradient(180deg,${C.red},${C.redDark})`,
+                      minHeight: 6,
+                      animation: `slideUp .4s ${i * 0.06}s both`,
+                    }} />
+                    <span style={{ fontSize: 8, color: C.muted }}>{b.day}</span>
+                  </div>
+                ))}
+              </div>
+              <div style={{ display: "flex", gap: 12, marginTop: 10 }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
+                  <div style={{ width: 8, height: 8, borderRadius: 2, background: C.emerald }} />
+                  <span style={{ fontSize: 9, color: C.muted }}>Win</span>
+                </div>
+                <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
+                  <div style={{ width: 8, height: 8, borderRadius: 2, background: C.red }} />
+                  <span style={{ fontSize: 9, color: C.muted }}>Loss</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Best positions */}
+            <div style={{ background: C.card, borderRadius: 14, padding: 16, border: `1px solid ${C.border}` }}>
+              <div style={{ fontSize: 11, fontWeight: "800", color: C.white, marginBottom: 12 }}>BEST FINISHES</div>
+              {[
+                { pos: "🥇", label: "1st Place", count: 14, color: C.gold },
+                { pos: "🥈", label: "2nd Place", count: 28, color: C.mutedLight },
+                { pos: "🥉", label: "3rd Place", count: 19, color: "#CD7F32" },
+              ].map(p => (
+                <div key={p.label} style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 10 }}>
+                  <span style={{ fontSize: 18, width: 24 }}>{p.pos}</span>
+                  <div style={{ flex: 1 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 4 }}>
+                      <span style={{ fontSize: 11, color: C.white }}>{p.label}</span>
+                      <span style={{ fontSize: 11, fontWeight: "700", color: p.color }}>{p.count}x</span>
+                    </div>
+                    <div style={{ background: C.border, borderRadius: 4, height: 5 }}>
+                      <div style={{
+                        width: `${(p.count / 61) * 100}%`, height: "100%",
+                        background: p.color, borderRadius: 4,
+                      }} />
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </>
+        )}
+
+        {/* ── HISTORY ── */}
+        {activeTab === "history" && history.map((h, i) => (
+          <div key={i} style={{
+            background: C.card, borderRadius: 14, padding: "12px 14px",
+            border: `1px solid ${h.win ? C.emerald + "33" : C.red + "22"}`,
+            display: "flex", alignItems: "center", justifyContent: "space-between",
+            animation: `slideUp .3s ${i * 0.06}s both`,
+          }}>
+            <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
+              <div style={{
+                width: 36, height: 36, borderRadius: 10, fontSize: 18,
+                background: h.win ? C.emerald + "22" : C.red + "22",
+                display: "flex", alignItems: "center", justifyContent: "center",
+              }}>{h.result.split(" ")[0]}</div>
+              <div>
+                <div style={{ fontSize: 13, fontWeight: "700", color: C.white }}>{h.tournament}</div>
+                <div style={{ fontSize: 10, color: C.muted, marginTop: 2 }}>{h.result} · {h.date}</div>
+              </div>
+            </div>
+            <div style={{
+              fontSize: 14, fontWeight: "900",
+              color: h.win ? C.emerald : C.red,
+            }}>{h.prize}</div>
+          </div>
+        ))}
+
+        {/* ── ACHIEVEMENTS ── */}
+        {activeTab === "achievements" && (
+          <>
+            <div style={{ fontSize: 10, color: C.muted, textAlign: "center", marginBottom: 4 }}>
+              {achievements.filter(a => a.unlocked).length} / {achievements.length} unlocked
+            </div>
+            <div style={{ background: C.border, borderRadius: 6, height: 5, marginBottom: 10 }}>
+              <div style={{
+                width: `${(achievements.filter(a => a.unlocked).length / achievements.length) * 100}%`,
+                height: "100%", background: `linear-gradient(90deg,${C.gold},${C.neonLight})`, borderRadius: 6,
+              }} />
+            </div>
+            {achievements.map((a, i) => (
+              <div key={i} style={{
+                background: a.unlocked ? C.card : C.surface,
+                borderRadius: 14, padding: "12px 14px",
+                border: `1px solid ${a.unlocked ? C.gold + "44" : C.border}`,
+                display: "flex", alignItems: "center", gap: 12,
+                opacity: a.unlocked ? 1 : 0.5,
+                animation: `slideUp .3s ${i * 0.05}s both`,
+              }}>
+                <div style={{
+                  width: 44, height: 44, borderRadius: 12, fontSize: 22,
+                  background: a.unlocked
+                    ? `linear-gradient(135deg,${C.gold}33,${C.goldDark}22)`
+                    : C.border,
+                  display: "flex", alignItems: "center", justifyContent: "center",
+                  border: `1px solid ${a.unlocked ? C.gold + "55" : "transparent"}`,
+                  filter: a.unlocked ? "none" : "grayscale(1)",
+                }}>{a.icon}</div>
+                <div style={{ flex: 1 }}>
+                  <div style={{ fontSize: 13, fontWeight: "800", color: a.unlocked ? C.white : C.muted }}>
+                    {a.name}
+                    {a.unlocked && <span style={{ fontSize: 9, color: C.gold, marginLeft: 6 }}>✓ UNLOCKED</span>}
+                  </div>
+                  <div style={{ fontSize: 10, color: C.muted, marginTop: 2 }}>{a.desc}</div>
+                </div>
+              </div>
+            ))}
+          </>
+        )}
+      </div>
+    </div>
+  );
+};
+
+// ═══════════════════════════════════════════════════════════════════════════
 // APP SHELL
 // ═══════════════════════════════════════════════════════════════════════════
 export default function SpadesRoyale() {
@@ -1046,13 +1390,14 @@ export default function SpadesRoyale() {
     bidding: <BiddingScreen onBid={() => nav("game")} />,
     game:    <GameScreen    onExit={() => nav("results")} />,
     results: <ResultsScreen onBack={() => nav("lobby")} />,
+    profile: <ProfileScreen />,
   };
 
   const navItems = [
     { icon: "🏠", label: "Home",    s: "lobby" },
     { icon: "🏆", label: "Rank",    s: null },
     { icon: "💰", label: "Cash",    s: null },
-    { icon: "👤", label: "Profile", s: null },
+    { icon: "👤", label: "Profile", s: "profile" },
   ];
 
   return (
@@ -1140,7 +1485,7 @@ export default function SpadesRoyale() {
         position: "absolute", right: "calc(50% - 240px)", top: "50%", transform: "translateY(-50%)",
         display: "flex", flexDirection: "column", gap: 8,
       }}>
-        {["lobby","bidding","game","results"].map(s => (
+        {["lobby","bidding","game","results","profile"].map(s => (
           <button key={s} onClick={() => nav(s)} className="btn-press" style={{
             background: screen === s ? C.gold : C.card,
             color: screen === s ? C.bg : C.mutedLight,
