@@ -13,5 +13,19 @@
   "devDependencies": {
     "@vitejs/plugin-react": "^4.0.0",
     "vite": "^4.4.0"
-  }
+  },
+  "description": "Don't Reneg On Me \u2014 Real-money skill-based Spades card game with Bellagio-luxury aesthetic",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cloudygetty-ai/spades-royale.git"
+  },
+  "license": "MIT",
+  "keywords": [
+    "spades",
+    "card-game",
+    "react",
+    "vite",
+    "real-money",
+    "skill-gaming"
+  ]
 }
